@@ -1,21 +1,22 @@
-### 模块与包
+### 包与模块
 在了解import之前，有两个概念必须提一下：
 
 * 包:
 
-__init__.py 文件所在目录就是包（package）
+\_\_init\_\_.py 文件所在目录就是包（package）
 
 * 模块:
 
 一个 .py 文件就是一个模块（module）
 
-当然，这只是极简版的概念。实际上包是一种特殊的模块，而任何定义了 __path__ 属性的模块都被当做包。只不过，咱们日常使用中并不需要知道这些。
+当然，这只是极简版的概念。实际上包是一种特殊的模块，而任何定义了 \_\_path\_\_ 属性的模块都被当做包。只不过，咱们日常使用中并不需要知道这些。
 
 ### 两种形式的 import
 
 * import有两种形式：
 
 import ...
+
 from ... import ...
 
 两者有着很细微的区别，先看几行代码。
@@ -195,7 +196,7 @@ from __future__ import absolute_import
 
 其次，两者搜索模块的方式不一样：
 
-* 对于相对 import，通过查看 __name__ 变量，在「包层级」（package hierarchy）中搜索
+* 对于相对 import，通过查看 \_\_name\_\_ 变量，在「包层级」（package hierarchy）中搜索
 * 对于绝对 import，当不处于包层级中时，搜索 sys.path
 
 前面在介绍 sys.path 的初始化的时候，我在有个地方故意模棱两可，即：
@@ -255,7 +256,7 @@ version	python -m child.foo	python child/foo.py
 
 为了避免踩到这种坑，咱们可以这样子：
 
-* 避免包或模块重名，避免使用 __main__.py
+* 避免包或模块重名，避免使用 \_\_main\_\_.py
 * 包内引用尽量使用相对 import
 
 
@@ -284,4 +285,4 @@ sys.modules 用于缓存，避免重复 import 带来的开销；load 会将模�
 * import 会生成 .pyc 文件，.pyc 文件的执行速度不比 .py 快，但是加载速度更快
 * 重复 import 只会执行第一次 import
 * 如果在 ipython 中 import 的模块发生改动，需要通过 reload 函数重新加载
-* import * 会导入除了以 _ 开头的所有变量，但是如果定义了 __all__，那么会导入 __all__ 中列出的东西
+* import * 会导入除了以 _ 开头的所有变量，但是如果定义了 \_\_all\_\_，那么会导入 \_\_all\_\_ 中列出的东西
