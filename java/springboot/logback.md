@@ -2,7 +2,7 @@
 
 springboot默认的日志文件是不会自动按天分割的，所以生产环境的日志文件越来越大，很不利于排错。查了很多资料最终配置如下，可以完美按天按错误等级分割日志文件，配置如下。
 
-由于springboot采用约定优先于配置的方式，日志文件也是，SpringBoot项目中在官方文档中（https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html）说明，默认已经依赖了一些日志框架。而其中推荐使用的就是Logback，说明一下，SpringBoot已经依赖了Logback所以不需要手动添加依赖。
+由于springboot采用约定优先于配置的方式，日志文件也是，SpringBoot项目中在官方文档中https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html 说明，默认已经依赖了一些日志框架。而其中推荐使用的就是Logback，说明一下，SpringBoot已经依赖了Logback所以不需要手动添加依赖。
 
 首先不同环境下的logback配置肯定是不一样的，所以我的解决办法是：
 
