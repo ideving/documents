@@ -32,7 +32,7 @@ func main() {
     //json str 转map
     var dat map[string]interface{}
     if err := json.Unmarshal([]byte(jsonStr), &dat); err == nil {
-        fmt.Println("==============json str 转map=======================")
+        fmt.Println("============== json str >> map ==============")
         fmt.Println(dat)
         fmt.Println(dat["host"])
     }
@@ -40,7 +40,7 @@ func main() {
     //json str 转struct
     var config ConfigStruct
     if err := json.Unmarshal([]byte(jsonStr), &config); err == nil {
-        fmt.Println("================json str 转struct==")
+        fmt.Println("============== json str >> struct ==============")
         fmt.Println(config)
         fmt.Println(config.Host)
     }
@@ -48,19 +48,19 @@ func main() {
     //json str 转struct(部份字段)
     var part Other
     if err := json.Unmarshal([]byte(jsonStr), &part); err == nil {
-        fmt.Println("================json str 转struct==")
+        fmt.Println("============== json str >> struct ==============")
         fmt.Println(part)
         fmt.Println(part.SerTcpSocketPort)
     }
  
     //struct 到json str
     if b, err := json.Marshal(config); err == nil {
-        fmt.Println("================struct 到json str==")
+        fmt.Println("============== struct >> json str ==============")
         fmt.Println(string(b))
     }
  
     //map 到json str
-    fmt.Println("================map 到json str=====================")
+    fmt.Println("============== map >> json str ==============")
     enc := json.NewEncoder(os.Stdout)
     enc.Encode(dat)
  
@@ -68,14 +68,14 @@ func main() {
     arr := []string{"hello", "apple", "python", "golang", "base", "peach", "pear"}
     lang, err := json.Marshal(arr)
     if err == nil {
-        fmt.Println("================array 到 json str==")
+        fmt.Println("============== array >> json str ==============")
         fmt.Println(string(lang))
     }
  
     //json 到 []string
     var wo []string
     if err := json.Unmarshal(lang, &wo); err == nil {
-        fmt.Println("================json 到 []string==")
+        fmt.Println("============== json >> []string ==============")
         fmt.Println(wo)
     }
 }
