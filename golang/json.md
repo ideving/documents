@@ -29,7 +29,7 @@ type Other struct {
 func main() { 
     jsonStr := `{"host": "http://localhost:9090","port": 9090,"analytics_file": "","static_file_version": 1,"static_dir": "E:/Project/goTest/src/","templates_dir": "E:/Project/goTest/src/templates/","serTcpSocketHost": ":12340","serTcpSocketPort": 12340,"fruits": ["apple", "peach"]}`
  
-    //json str 转map
+    //json str >> map
     var dat map[string]interface{}
     if err := json.Unmarshal([]byte(jsonStr), &dat); err == nil {
         fmt.Println("============== json str >> map ==============")
@@ -37,7 +37,7 @@ func main() {
         fmt.Println(dat["host"])
     }
  
-    //json str 转struct
+    //json str >> struct
     var config ConfigStruct
     if err := json.Unmarshal([]byte(jsonStr), &config); err == nil {
         fmt.Println("============== json str >> struct ==============")
@@ -45,7 +45,7 @@ func main() {
         fmt.Println(config.Host)
     }
  
-    //json str 转struct(部份字段)
+    //json str >> struct
     var part Other
     if err := json.Unmarshal([]byte(jsonStr), &part); err == nil {
         fmt.Println("============== json str >> struct ==============")
@@ -53,18 +53,18 @@ func main() {
         fmt.Println(part.SerTcpSocketPort)
     }
  
-    //struct 到json str
+    //struct >> json str
     if b, err := json.Marshal(config); err == nil {
         fmt.Println("============== struct >> json str ==============")
         fmt.Println(string(b))
     }
  
-    //map 到json str
+    //map >> json str
     fmt.Println("============== map >> json str ==============")
     enc := json.NewEncoder(os.Stdout)
     enc.Encode(dat)
  
-    //array 到 json str
+    //array >> json str
     arr := []string{"hello", "apple", "python", "golang", "base", "peach", "pear"}
     lang, err := json.Marshal(arr)
     if err == nil {
@@ -72,7 +72,7 @@ func main() {
         fmt.Println(string(lang))
     }
  
-    //json 到 []string
+    //json >> []string
     var wo []string
     if err := json.Unmarshal(lang, &wo); err == nil {
         fmt.Println("============== json >> []string ==============")
