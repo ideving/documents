@@ -4,16 +4,18 @@ import fitz
 import os
 
 
-def match_template(img, temp, val):
+def match_template(img_path, temp_path, val):
     """
     模板匹配
-    :param img: 图片矩阵
-    :param temp: 模板路径
+    :param img_path: 图片路径
+    :param temp_path: 模板路径
     :param val: 阈值
     :return: 匹配的坐标
     pip install numpy
     pip install opencv-python
     """
+    img = cv2.imread(img_path)
+    temp = cv2.imread(temp_path)
     if len(img.shape) > 2:
         im_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     else:
