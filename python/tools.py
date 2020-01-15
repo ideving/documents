@@ -9,6 +9,8 @@ def match_template(img, temp, val):
     :param temp: 模板路径
     :param val: 阈值
     :return: 匹配的坐标
+    pip install numpy
+    pip install opencv-python
     """
     if len(img.shape) > 2:
         im_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
