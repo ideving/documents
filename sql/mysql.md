@@ -1,16 +1,17 @@
-#### 1.export all database
+#### 1.export one database
 ```cassandraql
 mysqldump -u dbuser -p dbname > dbname.sql
 ```
 
 #### 2.export one table
 ```cassandraql
-mysqldump -u dbuser -p dbname tbname > dbname_tbname.sql
+mysqldump -u dbuser -p dbname tbname > dbname_tb.sql
 ```
 
-#### 3.export one database structure
+#### 3.export one database or table structure
 ```cassandraql
-mysqldump -u dbuser -p -d --add-drop-table dbname > dbname_db.sql
+mysqldump -u dbuser -p -d --add-drop-table dbname > dbname.sql
+mysqldump -u dbuser -p -d --add-drop-table dbname tbname > dbname_tb.sql
 -d no data
 --add-drop-table  add drop table before create table
 ```
@@ -28,10 +29,10 @@ mysql>use dbname;
 mysql>source dbname.sql;
 ```
 
-#### 6.import database
+#### 6.import one database or table
 ```cassandraql
 mysql -u dbuser -p --default-character-set=gbk dbname < dbname.sql
-mysql -u dbuser -p --default-character-set=gbk dbname tbname < dbname_db.sql
+mysql -u dbuser -p --default-character-set=gbk dbname tbname < dbname_tb.sql
 ```
 
 #### 7.show database
