@@ -1,0 +1,55 @@
+#### curl
+'''
+-I/--head	只显示传输文档，经常用于测试连接本身
+-o/--output	把输出写到该文件中，必须输入保存文件名
+-O/--remote-name	把输出写到该文件中，保留远程文件的文件名
+-F/--form	模拟表单提交
+-s/--silent	静默模式，不输出任何东西
+-S/--show-error	显示错误，在选项 -s 中，当 curl 出现错误时将显示
+-L/--location	跟踪重定向
+-f/--fail	不输出错误
+-n/--netrc	从netrc文件中读取用户名和密码
+--netrc-optional	使用 .netrc 或者 URL来覆盖-n
+--ntlm	使用 HTTP NTLM 身份验证
+-N/--no-buffer	禁用缓冲输出
+-p/--proxytunnel	使用HTTP代理
+--proxy-anyauth	选择任一代理身份验证方法
+--proxy-basic	在代理上使用基本身份验证
+--proxy-digest	在代理上使用数字身份验证
+--proxy-ntlm	在代理上使用ntlm身份验证
+-P/--ftp-port	使用端口地址，而不是使用PASV
+-M/--manual	显示全手动
+-Q/--quote	文件传输前，发送命令到服务器
+-r/--range	检索来自HTTP/1.1或FTP服务器字节范围
+--range-file	读取（SSL）的随机文件
+-R/--remote-time	在本地生成文件时，保留远程文件时间
+--retry	传输出现问题时，重试的次数
+--retry-delay	传输出现问题时，设置重试间隔时间
+--retry-max-time	传输出现问题时，设置最大重试时间
+--socks4	用socks4代理给定主机和端口
+--socks5	用socks5代理给定主机和端口
+-t/--telnet-option	Telnet选项设置
+--trace	对指定文件进行debug
+--trace-ascii Like	跟踪但没有hex输出
+--trace-time 跟踪/	详细输出时，添加时间戳
+-T/--upload-file	上传文件
+-u/--user	设置服务器的用户和密码
+-U/--proxy-user	设置代理用户名和密码
+-V/--version	显示版本信息
+-w/--write-out [format]	什么输出完成后
+-x/--proxy	在给定的端口上使用HTTP代理
+-X/--request	指定什么命令
+-y/--speed-time	放弃限速所要的时间。默认为30
+-Y/--speed-limit	停止传输速度的限制，速度时间'秒
+-z/--time-cond	传送时间设置
+-0/--http1.0	使用HTTP 1.0
+-1/--tlsv1	使用TLSv1（SSL）
+-2/--sslv2	使用SSLv2的（SSL）
+-3/--sslv3	使用的SSLv3（SSL）
+--3p-quote	like -Q for the source URL for 3rd party transfer
+--3p-url	使用url，进行第三方传送
+--3p-user	使用用户名和密码，进行第三方传送
+-4/--ipv4	使用IP4
+-6/--ipv6	使用IP6
+-#/--progress-bar	用进度条显示当前的传送状态
+'''
