@@ -1,4 +1,4 @@
-### curl [options...] <url>
+### curl [options...] \<url\>
 ```
 -I/--head	只显示传输文档，经常用于测试连接本身
 -o/--output	把输出写到该文件中，必须输入保存文件名
