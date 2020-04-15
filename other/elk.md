@@ -422,24 +422,145 @@ http://192.168.1.21:5601/app/kibana#/discover
 
 # Other
 ## Logstash配置
+- 配置参数
+```
+file：顾名思义，直接读文件
+stdin: 标准输入，调试配置的时候玩玩
+syslog: syslog协议的日志格式，比如linux的rsyslog
+tcp/udp：使用tcp或udp传输过来的日志
+```
+
+```
+path: 日志文件或目录的绝对路径，也可以是通配符的。
+type: 类型，自定义
+start_position: logstash 从什么位置开始读取文件数据，默认是结束位置，也就是说 logstash 进程会以类似 tail -F 的形式运行。如果你是要导入原有数据，把这个设定改成 "beginning"，logstash 进程就从头开始读取，类似 less +F 的形式运行。
+codec: codec配置，通过它可以更好更方便的与其他有自定义数据格式的运维产品共存，比如 graphite、fluent、netflow、collectd，以及使用 msgpack、json、edn 等通用数据格式的其他产品等。
+```
+
 - config.conf
 ```
 input{
     file{
-        path => ["/logs/out.log","/logs/error.log"]
+        #指定单一文件
+        path => "/data/es/logstash/files/test.log"
+        #指定数组文件
+        #path => ["/data/es/logstash/files/test-1.log","/data/es/logstash/files/test-2.log"]
+        #指定同级目录模糊匹配
+        #path => "/data/es/logstash/files/test*.log"
+        #指定多级目录模糊匹配
+        #path => "/data/es/logstash/files/**/test*.log"
+
+        #当存在多个文件的时候可使用type指定输入输出路径
+        type=>"log_index"
+        
+        #可设置成begining或end，begining表示从头开始读取文件，end表示读取最新数据，可和ignore_older一起使用
+        #begining只针对首次启动是否需要读取所有的历史数据，而当文件修改了之后，同样会自动增量更新新数据
         start_position => "beginning"
-        type => "logstash_log"
+
+        #设置输入规则
+        codec => multiline {
+            #利用正则匹配规则，匹配每一行开始的位置，这里匹配每一行开始的位置为数字
+            pattern => "^[0-9]"
+     
+            #true表示不匹配正则表达式，false为匹配正则表达式，默认false
+            #如果不匹配，则会结合what参数，进行合并操作
+            negate => true
+            
+            #what可设置previous和next，previous则表示将所有不匹配的数据都合并到上一个正则事件
+            #而next则相反，将所有的不匹配的数据都合并到下一个正则事件
+            what => "previous"
+ 
+            #表示当多长时间没有新的数据，最后一个正则匹配积累的多行数据都归属为最后一个事件，这里的10表示10秒
+            #auto_flush_interval => 10
+       }
+    }
+    tcp{
+        port => 8888
+        mode => "server"
+        ssl_enable => false
     }
 }
 filter{
+    grok{
+        match => {
+        "message" => "%{IPORHOST:clientip} - - \[%{HTTPDATE:request_time}\] \"(?:%{WORD:method} %{URIPATH:url}(?:%{URIPARAM:params})?(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})\" %{NUMBER:status} (?:%{NUMBER:bytes:int}|-) \"%{DATA:referrer}\" \"%{DATA:agent}\""
+        }
+    }
+    ruby{
+        init => "@kname = ['client','servername','url','status','time','size','upstream','upstreamstatus','upstreamtime','referer','xff','useragent']"
+        code => "
+            new_event = LogStash::Event.new(Hash[@kname.zip(event.get('message').split('|'))])
+            new_event.remove('@timestamp')
+            event.append(new_event)"
+    }
 }
 output{
-    elasticsearch{
-        hosts => ["192.168.1.31:9200","192.168.1.32:9200"]
-        index => "logstash-%{type}-%{+YYYY.MM.dd}"
-        document_type => "%{type}"
+    #输出控制台
+    stdout {
+        #codec => json
     }
-    stdout{
+
+    #输出到elasticsearch
+    if [type] == "log_index"{
+        elasticsearch{
+            hosts => ["192.168.1.31:9200","192.168.1.32:9200"]
+            
+            #以当前的日期作为index和type
+            index=>"log-%{+YYYY.MM.dd}"
+            document_type=>"log-%{+YYYY.MM.dd}"
+            
+            #覆盖模板
+            #template_overwrite=>true
+            #template=>"/elk/es/logstash/template/logstash.json"
+        }
+    }
+
+    #输出到文件
+    if [type] == "log_file" {
+        file{
+            path => "/elk/logstash/logs/website-%{+YYYY.MM.dd}.log"
+            flush_interval => 0
+        }
+    }
+
+    #输出到Redis
+    if [type] == "log_redis"{
+        redis{
+            host => "192.168.11.5"
+            port => 7890
+            db => 1
+            password => "password"
+            data_type => "channel"
+            key => "/wefintek/education/website/logs/website-log"
+        }
     }
 }
 ```
+
+- 补充file-input字段说明
+```
+codec => #可选项，默认是plain，可设置其他编码方式；
+ 
+discover_interval => #可选项，logstash多久检查一下path下有新文件，默认15s；
+ 
+exclude => #可选项，排除path下不想监听的文件；
+ 
+sincedb_path => #可选项，记录文件以及文件读取信息位置的数据文件；
+ 
+sincedb_write_interval => #可选项，logstash多久写一次sincedb文件，默认15s；
+ 
+stat_interval => #可选项，logstash多久检查一次被监听文件的变化，默认1s；
+ 
+start_position => #可选项，表示从哪个位置读取文件数据，初次导入为：beginning，最新数据为：end
+ 
+path => #必选项，配置文件路径，可定义多个，也可模糊匹配；
+ 
+tags => #可选项，在数据处理过程中，由具体的插件来添加或者删除的标记；
+ 
+type => #可选项，当有多个file的时候，可用于一对一匹配输入或者输出；
+```
+
+- 注意事项
+1. logstash启动之后，进程会一直处于运行状态，若log文件被修改，程序会自动监听，导入新数据；
+2. 若需要重新导入数据，则需要删除logstash安装目录下 \plugins\inputs\file 下的文件(该文件属于隐藏文件)，所以直接删除该目录即可，之后目录会重新生成；
+3. 如果使用了模板覆盖，需要将模板的message字段设置成分词，否则无法有效进行分词全局搜索；
