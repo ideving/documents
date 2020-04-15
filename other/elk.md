@@ -115,7 +115,7 @@ cd /home/download
 #下载
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz
 wget https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz
-wget wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0.tar.gz
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0.tar.gz
  
 #解压
 tar -zvxf elasticsearch-6.0.0.tar.gz
