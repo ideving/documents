@@ -506,8 +506,9 @@ output{
             hosts => ["192.168.1.31:9200","192.168.1.32:9200"]
             
             #以当前的日期作为index和type
-            index=>"log-%{+YYYY.MM.dd}"
-            document_type=>"log-%{+YYYY.MM.dd}"
+            #index=>"log-%{+YYYY.MM.dd}"
+            index=>"%{type}-%{+YYYY.MM.dd}"
+            document_type=>"%{type}-%{+YYYY.MM.dd}"
             
             #覆盖模板
             #template_overwrite=>true
