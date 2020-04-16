@@ -5,7 +5,7 @@
 - Copy and paste to pull this image
 
 ```
-docker pull elasticsearch:7.0.0
+docker pull elastic/elasticsearch:tag
 ```
 
 - Running in Development Mode
@@ -19,7 +19,7 @@ docker network create somenetwork
 Run Elasticsearch:
 
 ```
-docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:tag
+docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elastic/elasticsearch:7.0.0
 ```
 
 - Running in Production Mode
@@ -36,7 +36,7 @@ It is essential to place your pipeline configuration where it can be found by Lo
 In this example we use a bind-mounted volume to provide the configuration via the docker run command:
 
 ```
-docker run --rm -it -v ~/pipeline/:/usr/share/logstash/pipeline/ docker.elastic.co/logstash/logstash:7.0.0
+docker run --rm -it -v ~/pipeline/:/usr/share/logstash/pipeline/ elastic/logstash:7.0.0
 ```
 
 Every file in the host directory ~/pipeline/ will then be parsed by Logstash as pipeline configuration.
@@ -65,13 +65,13 @@ Settings files can also be provided through bind-mounts. Logstash expects to fin
 It’s possible to provide an entire directory containing all needed files:
 
 ```
-docker run --rm -it -v ~/settings/:/usr/share/logstash/config/ docker.elastic.co/logstash/logstash:7.0.0
+docker run --rm -it -v ~/settings/:/usr/share/logstash/config/ elastic/logstash:7.0.0
 ```
 
 Alternatively, a single file can be mounted:
 
 ```
-docker run --rm -it -v ~/settings/logstash.yml:/usr/share/logstash/config/logstash.yml docker.elastic.co/logstash/logstash:7.0.0
+docker run --rm -it -v ~/settings/logstash.yml:/usr/share/logstash/config/logstash.yml elastic/logstash:7.0.0
 ```
 
 - Custom Images
@@ -134,7 +134,7 @@ Under Docker, Logstash logs go to standard output by default. To change this beh
 - Copy and paste to pull this image
 
 ```
-docker pull kibana:7.0.0
+docker pull elastic/kibana:tag
 ```
 
 - Running in Development Mode
@@ -150,7 +150,7 @@ Note:In this example, Kibana is using the default configuration and expects to c
 Run Kibana
 
 ```
-docker run -d --name kibana --net somenetwork -p 5601:5601 kibana:tag
+docker run -d --name kibana --net somenetwork -p 5601:5601 elastic/kibana:7.0.0
 ```
 
 Kibana can be accessed by browser via http://localhost:5601 or http://host-ip:5601
@@ -158,3 +158,96 @@ Kibana can be accessed by browser via http://localhost:5601 or http://host-ip:56
 - Running in Production Mode
 
 For additional information on running and configuring Kibana on Docker, see Running Kibana on Docker
+
+## filebeat
+
+- Copy and paste to pull this image
+
+Obtaining Filebeat for Docker is as simple as issuing a docker pull command against the Elastic Docker registry.
+
+```
+docker pull elastic/filebeat:tag
+```
+
+Alternatively, you can download other Docker images that contain only features available under the Apache 2.0 license. To download the images, go to www.docker.elastic.co.
+
+- Run the Filebeat setup
+
+Running Filebeat with the setup command will create the index pattern and load visualizations , dashboards, and machine learning jobs. Run this command:
+
+```
+docker run \
+elastic/filebeat:7.0.0 \
+setup -E setup.kibana.host=kibana:5601 \
+-E output.elasticsearch.hosts=["elasticsearch:9200"]
+```
+
+Substitute your Kibana and Elasticsearch hosts and ports.
+
+If you are using the hosted Elasticsearch Service in Elastic Cloud, replace the -E output.elasticsearch.hosts line with the Cloud ID and elastic password using this syntax:
+
+```
+-E cloud.id=<Cloud ID from Elasticsearch Service> \
+-E cloud.auth=elastic:<elastic password>
+```
+
+- Configure Filebeat on Docker
+
+The Docker image provides several methods for configuring Filebeat. The conventional approach is to provide a configuration file via a volume mount, but it’s also possible to create a custom image with your configuration included.
+
+- Example configuration file
+
+Download this example configuration file as a starting point:
+
+```
+curl -L -O https://raw.githubusercontent.com/elastic/beats/7.0/deploy/docker/filebeat.docker.yml
+```
+
+- Volume-mounted configuration
+
+One way to configure Filebeat on Docker is to provide filebeat.docker.yml via a volume mount. With docker run, the volume mount can be specified like this.
+
+```
+docker run -d \
+  --name=filebeat \
+  --user=root \
+  --volume="$(pwd)/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro" \
+  --volume="/var/lib/docker/containers:/var/lib/docker/containers:ro" \
+  --volume="/var/run/docker.sock:/var/run/docker.sock:ro" \
+  docker.elastic.co/beats/filebeat:7.0.0 filebeat -e -strict.perms=false \
+  -E output.elasticsearch.hosts=["elasticsearch:9200"]
+```
+
+Substitute your Elasticsearch hosts and ports.
+
+If you are using the hosted Elasticsearch Service in Elastic Cloud, replace the -E output.elasticsearch.hosts line with the Cloud ID and elastic password using the syntax shown earlier.
+
+- Customize your configuration
+
+The filebeat.docker.yml file you downloaded earlier is configured to deploy Beats modules based on the Docker labels applied to your containers. See Hints based autodiscover for more details. Add labels to your application Docker containers, and they will be picked up by the Beats autodiscover feature when they are deployed. Here is an example command for an Apache HTTP Server container with labels to configure the Filebeat and Metricbeat modules for the Apache HTTP Server:
+
+```
+docker run \
+  --label co.elastic.logs/module=apache2 \
+  --label co.elastic.logs/fileset.stdout=access \
+  --label co.elastic.logs/fileset.stderr=error \
+  --label co.elastic.metrics/module=apache \
+  --label co.elastic.metrics/metricsets=status \
+  --label co.elastic.metrics/hosts='${data.host}:${data.port}' \
+  --detach=true \
+  --name my-apache-app \
+  -p 8080:80 \
+  httpd:2.4
+```
+
+- Custom image configuration
+
+It’s possible to embed your Filebeat configuration in a custom image. Here is an example Dockerfile to achieve this:
+
+```
+FROM docker.elastic.co/beats/filebeat:7.0.0
+COPY filebeat.yml /usr/share/filebeat/filebeat.yml
+USER root
+RUN chown root:filebeat /usr/share/filebeat/filebeat.yml
+USER filebeat
+```
