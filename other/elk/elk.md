@@ -35,11 +35,11 @@ elk	192.168.1.21	部署Logstash + Kibana + Redis
 
 Linux Server	CentOS 7
 
-Elasticsearch	6.0.0
+Elasticsearch	7.0.0
 
-Logstash	6.0.0
+Logstash	7.0.0
 
-Kibana	6.0.0
+Kibana	7.0.0
 
 Redis	4.0
 
@@ -113,14 +113,14 @@ chown -R elk:elk /elk
 cd /home/download
  
 #下载
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz
-wget https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz
-wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0.tar.gz
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.0.0.tar.gz
+wget https://artifacts.elastic.co/downloads/logstash/logstash-7.0.0.tar.gz
+wget https://artifacts.elastic.co/downloads/kibana/kibana-7.0.0.tar.gz
  
 #解压
-tar -zvxf elasticsearch-6.0.0.tar.gz
-tar -zvxf logstash-6.0.0.tar.gz
-tar -zvxf kibana-6.0.0.tar.gz
+tar -zvxf elasticsearch-7.0.0.tar.gz
+tar -zvxf logstash-7.0.0.tar.gz
+tar -zvxf kibana-7.0.0.tar.gz
 ```
 
 # 三、Elasticsearch 部署
@@ -131,9 +131,9 @@ tar -zvxf kibana-6.0.0.tar.gz
 - 移动Elasticsearch到统一目录
 ```
 #移动目录
-mv /home/download/elasticsearch-6.0.0 /opt/elk
+mv /home/download/elasticsearch-7.0.0 /opt/elk
 #赋权
-chown -R elk:elk /opt/elk/elasticsearch-6.0.0
+chown -R elk:elk /opt/elk/elasticsearch-7.0.0
 ```
 
 - 开放端口
@@ -166,7 +166,7 @@ mkdir /elk/es/logs
 - 修改配置
 ```
 #打开目录
-cd /opt/elk/elasticsearch-6.0.0
+cd /opt/elk/elasticsearch-7.0.0
  
 #修改配置
  
@@ -223,7 +223,7 @@ discovery.zen.minimum_master_nodes	主节点个数
 - 启动
 ```
 #进入elasticsearch根目录
-cd /opt/elk/elasticsearch-6.0.0
+cd /opt/elk/elasticsearch-7.0.0
 #启动
 ./bin/elasticsearch
 ```
@@ -260,9 +260,9 @@ curl http://192.168.1.31:9200/_cluster/health
 - 移动Logstash到统一目录
 ```
 #移动目录
-mv /home/download/logstash-6.0.0 /opt/elk
+mv /home/download/logstash-7.0.0 /opt/elk
 #赋权
-chown -R elk:elk /opt/elk/logstash-6.0.0
+chown -R elk:elk /opt/elk/logstash-7.0.0
 ```
 
 - 切换账号
@@ -285,7 +285,7 @@ mkdir /elk/logstash/logs
 - 配置数据&日志目录
 ```
 #打开目录
-cd /opt/elk/logstash-6.0.0
+cd /opt/elk/logstash-7.0.0
 #修改配置
 vi config/logstash.yml
  
@@ -334,7 +334,7 @@ codec => "json"	数据格式为：json
 - 启动
 ```
 #进入Logstash根目录
-cd /opt/elk/logstash-6.0.0
+cd /opt/elk/logstash-7.0.0
 #测试
 ./bin/logstash -t -f config/input-output.conf
 #启动
@@ -351,9 +351,9 @@ cd /opt/elk/logstash-6.0.0
 - 移动Kibana到统一目录
 ```
 #移动目录
-mv /home/download/kibana-6.0.0-linux-x86_64 /opt/elk/kibana-6.0.0
+mv /home/download/kibana-7.0.0 /opt/elk/kibana-7.0.0
 #赋权
-chown -R elk:elk /usr/elk/kibana-6.0.0
+chown -R elk:elk /usr/elk/kibana-7.0.0
 ```
 
 - 开放端口
@@ -374,8 +374,8 @@ su - elk
 ## 3、Kibana配置与访问测试
 - 修改配置
 ```
-#进入kibana-6.0.0根目录
-cd /opt/elk/kibana-6.0.0
+#进入kibana-7.0.0根目录
+cd /opt/elk/kibana-7.0.0
 #修改配置
 vi config/kibana.yml
  
@@ -386,8 +386,8 @@ elasticsearch.url: "http://192.168.1.31:9200"
 ```
 - 启动
 ```
-#进入kibana-6.0.0根目录
-cd /opt/elk/kibana-6.0.0
+#进入kibana-7.0.0根目录
+cd /opt/elk/kibana-7.0.0
 #启动
 ./bin/kibana
 ```
@@ -399,7 +399,7 @@ http://192.168.1.21:5601
 # 六、测试
 ## 1、日志写入
 日历写入的话，写入到logstash监听的redis即可。
-数据类型之前在/opt/elk/logstash-6.0.0/config/input-uput.conf中有配置
+数据类型之前在/opt/elk/logstash-7.0.0/config/input-uput.conf中有配置
 
 - Redis命令方式
 ```
