@@ -1,4 +1,4 @@
-# elasticsearch
+# 1. elasticsearch
 
 - create network
 ```
@@ -10,7 +10,7 @@ docker network create elk
 docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elastic/elasticsearch:7.0.0
 ```
 
-# logstash
+# 2. logstash
 
 - run logstash use config file
 ```
@@ -95,7 +95,7 @@ output {
 }
 ```
 
-# kibana
+# 3. kibana
 
 - run kibana
 
@@ -103,16 +103,16 @@ output {
 docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch -p 5601:5601 elastic/kibana:7.0.0
 ```
 
-# fast setup
+# 4. fast setup
 
-## load docker image
+## 4.1 load docker image
 ```
 docker load -i elasticsearch.tar
 docker load -i logstash.tar
 docker load -i kibana.tar
 ```
 
-##  edit logstash-sample.conf
+## 4.2 edit logstash-sample.conf
 > vi ~/logstash/logstash-sample.conf
 ```
 input {
@@ -143,7 +143,7 @@ output {
 }
 ```
 
-## run docker
+## 4.3 run docker
 ```
 docker network create elk
 docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elastic/elasticsearch:7.0.0
@@ -151,7 +151,7 @@ docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch -p 56
 docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt elastic/logstash:7.0.0 logstash -f /mnt/logstash-sample.conf
 ```
 
-## nginx config
+## 4.4 nginx config
 ```
 server {
     listen 80;
