@@ -7,16 +7,14 @@ docker network create elk
 
 - run elasticsearch 
 ```
-docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 \
--e "discovery.type=single-node" elastic/elasticsearch:7.0.0
+docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e discovery.type=single-node elastic/elasticsearch:7.0.0
 ```
 
 # 2. logstash
 
 - run logstash use config file
 ```
-docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch \
--p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt logstash -f /mnt/logstash-sample.conf
+docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt logstash -f /mnt/logstash-sample.conf
 ```
 
 - logstash dir content
@@ -54,9 +52,7 @@ output {
 
 - run logstash
 ```
-docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch \
--p 5044:5044 -p 9600:9600 -v ~/logstash/config:/usr/share/logstash/config \
--v ~/logs:/var/logs elastic/logstash:7.0.0
+docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash/config:/usr/share/logstash/config -v ~/logs:/var/logs elastic/logstash:7.0.0
 ```
 
 - config dir content
@@ -107,8 +103,7 @@ output {
 
 - run kibana
 ```
-docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch \
--p 5601:5601 elastic/kibana:7.0.0
+docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch -p 5601:5601 elastic/kibana:7.0.0
 ```
 
 # 4. fast setup
@@ -155,14 +150,12 @@ output {
 ## 4.3 run docker
 ```
 docker network create elk
-docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 \
--e "discovery.type=single-node" elastic/elasticsearch:7.0.0
 
-docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch \
--p 5601:5601 elastic/kibana:7.0.0
+docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elastic/elasticsearch:7.0.0
 
-docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch \
--p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt elastic/logstash:7.0.0 logstash -f /mnt/logstash-sample.conf
+docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch -p 5601:5601 elastic/kibana:7.0.0
+
+docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt elastic/logstash:7.0.0 logstash -f /mnt/logstash-sample.conf
 ```
 
 ## 4.4 nginx config
