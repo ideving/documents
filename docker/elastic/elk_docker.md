@@ -16,18 +16,20 @@ docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e "disco
 ```
 docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt logstash -f /mnt/logstash-sample.conf
 ```
+
 - logstash dir content
-> cd ~/logstash
-> vi logstash-sample.conf
+- cd ~/logstash
+- vi logstash-sample.conf
+    
 ```
 input {
     file {
-        path => "/var/logs/sys*.log"
+        path => "/mnt/logs/sys*.log"
         type => "system"
         start_position => "beginning"
     }
     file {
-        path => "/var/logs/error*.log"
+        path => "/mnt/logs/error*.log"
         type => "error"
         start_position => "beginning"
     }
@@ -52,20 +54,22 @@ output {
 ```
 docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash/config:/usr/share/logstash/config -v ~/logs:/var/logs elastic/logstash:7.0.0
 ```
+
 - config dir content
-> cd ~/logstash/config
-> vi logstash.yml
+- cd ~/logstash/config
+- vi logstash.yml
 ```
 # none
 ```
-> vi pipelines.yml
+
+- vi pipelines.yml
 ```
 - pipeline.id: logstash-one
   path.config: "/usr/share/logstash/config/*.conf"
   pipeline.workers: 3
 ```
 
-> vi logstash-sample.conf
+- vi logstash-sample.conf
 ```
 input {
     file {
@@ -98,7 +102,6 @@ output {
 # 3. kibana
 
 - run kibana
-
 ```
 docker run --name kibana -dit --net elk --link elasticsearch:elasticsearch -p 5601:5601 elastic/kibana:7.0.0
 ```
@@ -113,16 +116,17 @@ docker load -i kibana.tar
 ```
 
 ## 4.2 edit logstash-sample.conf
-> vi ~/logstash/logstash-sample.conf
+
+- vi ~/logstash/logstash-sample.conf
 ```
 input {
     file {
-        path => "/var/logs/sys*.log"
+        path => "/mnt/logs/sys*.log"
         type => "system"
         start_position => "beginning"
     }
     file {
-        path => "/var/logs/error*.log"
+        path => "/mnt/logs/error*.log"
         type => "error"
         start_position => "beginning"
     }

@@ -69,7 +69,7 @@ ___
 ### 行内式
 [百度一下](http://www.baidu.com)，你就知道了！
 
-[百度一下](http://www.baidu.com "这里还可以加title哦")，你就知道了！
+[百度一下](http://www.baidu.com "这里还可以加标题哦")，你就知道了！
 
 ### 参数式
 [name]: http://www.baidu.com "百度首页"
