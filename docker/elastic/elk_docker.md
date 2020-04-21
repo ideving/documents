@@ -12,11 +12,45 @@ docker run --name elasticsearch -d --net elk -p 9200:9200 -p 9300:9300 -e "disco
 
 # logstash
 
+- run logstash use config file
+```
+docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash:/mnt logstash -f /mnt/logstash-sample.conf
+```
+- logstash dir content
+> cd ~/logstash
+> vi logstash-sample.conf
+```
+input {
+    file {
+        path => "/var/logs/sys*.log"
+        type => "system"
+        start_position => "beginning"
+    }
+    file {
+        path => "/var/logs/error*.log"
+        type => "error"
+        start_position => "beginning"
+    }
+}
+output {
+    if [type] == "system" {
+        elasticsearch {
+            hosts => ["http://elasticsearch:9200"]
+            index => "system-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "error" {
+        elasticsearch {
+            hosts => ["http://elasticsearch:9200"]
+            index => "error-%{+YYYY.MM.dd}"
+        }
+    }
+}
+```
+
 - run logstash
 ```
 docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash/config:/usr/share/logstash/config -v ~/logs:/var/logs elastic/logstash:7.0.0
-# or
-docker run --name logstash -dit --net elk --link elasticsearch:elasticsearch -p 5044:5044 -p 9600:9600 -v ~/logstash/config:/usr/share/logstash/config -v ~/logs:/var/logs elastic/logstash:7.0.0 logstash -f /usr/share/logstash/config/logstash-sample.conf
 ```
 - config dir content
 > cd ~/logstash/config
