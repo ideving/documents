@@ -41,6 +41,7 @@ mysql -u dbuser -p --default-character-set=gbk dbname tbname < dbname_tb.databas
 ```cassandraql
 mysql -u dbuser -p --default-character-set=gbk
 mysql>show databases;
+mysql>create database dbname default character set utf8 collate utf8_general_ci;
 mysql>use dbname;
 mysql>show tables;
 mysql>show columns from tbname;
@@ -67,9 +68,9 @@ service mysqld restart
 - edit password for root
 ```
 mysql
-mysql> update mysql.user set password = password('toor') where user = 'root';
-mysql> flush privileges;
-mysql> exit
+mysql>update mysql.user set password = password('toor') where user = 'root';
+mysql>flush privileges;
+mysql>exit
 ```
 
 - edit /etc/my.cnf
@@ -91,8 +92,28 @@ mysql -uroot -p
 # 允许远程连接
 ```
 mysql -root -p
-mysql> use mysql;
-mysql> select host, user from user;
-mysql> update user set host = '%' where user = 'root';
-mysql> flush privileges;
+mysql>use mysql;
+mysql>select host, user from user;
+mysql>update user set host = '%' where user = 'root';
+mysql>flush privileges;
+```
+
+# 删除空用户名的记录
+
+- stop mysql
+```
+service mysqld stop
+```
+
+- skip grant
+```
+mysqld_safe --skip-grant-table
+```
+
+- open a new terminal
+```
+mysql -u root mysql
+mysql>delete from user where user = '';
+mysql>flush privileges;
+mysql>\q 
 ```
