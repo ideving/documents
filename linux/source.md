@@ -1,4 +1,4 @@
-# centos 6
+# CentOS 6
 ```
 # CentOS-Base.repo
 #
@@ -64,7 +64,7 @@ enabled=0
 gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-6
 ```
 
-# centos 7
+# CentOS 7
 ```
 # CentOS-Base.repo
 #
@@ -130,7 +130,7 @@ enabled=0
 gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
 ```
 
-# centos 8
+# CentOS 8
 ```
 # CentOS-Base.repo
 #
@@ -195,7 +195,7 @@ gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-Official
 ```
 
-# debian 10
+# Debian 10
 ```
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
 deb http://mirrors.aliyun.com/debian-security buster/updates main
@@ -207,7 +207,7 @@ deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
 deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
 ```
 
-# ubuntu 20
+# Ubuntu 20
 ```
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
