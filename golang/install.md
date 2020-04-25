@@ -9,7 +9,12 @@ tar -C /usr/local -xzvf go1.11.11.linux.tar.gz
 
 Add /usr/local/go/bin to the PATH environment variable. You can do this by adding this line to your /etc/profile (for a system-wide installation) or $HOME/.profile:
 ```
+vi /etc/profile
 export PATH=$PATH:/usr/local/go/bin
+source /etc/profile
+# or
+echo export PATH=$PATH:/usr/local/go/bin
+source /etc/profile
 ```
 
 Note: changes made to a profile file may not apply until the next time you log into your computer. To apply the changes immediately, just run the shell commands directly or execute them from the profile using a command such as source $HOME/.profile.
