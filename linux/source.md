@@ -195,14 +195,31 @@ gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-Official
 ```
 
-# Debian 8
+# Debian 8 (jessie)
 ```
-deb http://mirrors.aliyun.com/debian jessie main non-free contrib
-deb http://mirrors.aliyun.com/debian jessie-updates main non-free contrib
-deb http://mirrors.aliyun.com/debian-security jessie/updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb http://mirrors.aliyun.com/debian-security jessie/updates main
+deb http://mirrors.aliyun.com/debian/ jessie-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ jessie-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.aliyun.com/debian-security jessie/updates main
+deb-src http://mirrors.aliyun.com/debian/ jessie-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie-backports main non-free contrib
 ```
 
-# Debian 10
+# Debian 9 (stretch)
+```
+deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb http://mirrors.aliyun.com/debian-security stretch/updates main
+deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
+deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+```
+
+# Debian 10 (buster)
 ```
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
 deb http://mirrors.aliyun.com/debian-security buster/updates main
@@ -214,7 +231,7 @@ deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
 deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
 ```
 
-# Ubuntu 20
+# Ubuntu 20 (focal)
 ```
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
