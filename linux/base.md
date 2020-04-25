@@ -1,4 +1,4 @@
 # base package
 ```
-yum install -y vim wget curl zlib net-tools telnet zip unzip openssl openssh-server openssh-clients gcc make git
+yum install -y vim net-tools telnet curl wget zip unzip openssl openssh-server openssh-clients zlib gcc make git
 ```
