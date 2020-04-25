@@ -195,6 +195,13 @@ gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-Official
 ```
 
+# Debian 8
+```
+deb http://mirrors.aliyun.com/debian jessie main non-free contrib
+deb http://mirrors.aliyun.com/debian jessie-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian-security jessie/updates main non-free contrib
+```
+
 # Debian 10
 ```
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
