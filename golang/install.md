@@ -13,7 +13,7 @@ vi /etc/profile
 export PATH=$PATH:/usr/local/go/bin
 source /etc/profile
 # or
-echo export PATH=$PATH:/usr/local/go/bin
+echo export PATH=$PATH:/usr/local/go/bin >> /etc/profile
 source /etc/profile
 ```
 
