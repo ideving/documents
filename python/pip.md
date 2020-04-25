@@ -20,7 +20,7 @@ python -m pip install --upgrade pip==10.0.0
 
 ### 使用临时源地址
 ```
-pip install -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com xxx
+pip install -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com --no-cache-dir xxx
 ```
 
 ### 使用默认源地址（pip>=10.0.0) 
