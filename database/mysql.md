@@ -117,3 +117,18 @@ mysql>delete from user where user = '';
 mysql>flush privileges;
 mysql>\q 
 ```
+
+# 查询语句执行顺序
+```
+(01) from
+(02) on
+(03) join
+(04) where
+(05) group by
+(06) avg, sum....
+(07) having
+(08) select
+(09) distinct
+(10) order by
+(11) limit
+```
