@@ -73,7 +73,7 @@ COPY nickdir ./nickdir
 COPY 命令区别于 ADD 命令的一个用法是在 multistage 场景下。关于 multistage 的介绍和用法请参考笔者的《Dockerfile 中的 multi-stage》一文。在 multistage 的用法中，可以使用 COPY 命令把前一阶段构建的产物拷贝到另一个镜像中，比如：
 
 ```
-FROM golang:1.11.1
+FROM golang:1.11.11
 WORKDIR /go/src/github.com/sparkdevo/href-counter/
 RUN go get -d -v golang.org/x/net/html
 COPY app.go .
