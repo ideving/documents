@@ -1,5 +1,6 @@
-### fmt.printf
-```cassandraql
+# fmt.printf
+
+```
 package main
 
 import "fmt"
@@ -58,5 +59,4 @@ func main() {
 	//重定向指定形式的值
 	fmt.Fprintf(os.Stderr, "an %s\n", "error") //an error
 }
-
 ```

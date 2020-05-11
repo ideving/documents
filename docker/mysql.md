@@ -1,32 +1,31 @@
-### docker mysql
+# docker mysql
 
-#### 1.pull mysql
-```cassandraql
-docker pull mysql
+## 1.pull mysql
+```
+docker pull mysql:tag
 ```
 
-#### 2.docker run
-```cassandraql
-docker tag mysql:5.5 mysql:v1.0.0
-docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name mysql mysql:v1.0.0
-docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --name mysql mysql:v1.0.0
+## 2.docker run
+```
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name mysql mysql:tag
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --name mysql mysql:tag
 ```
 
-#### 3.set host
-```cassandraql
+## 3.set host
+```
 mysql -u dbuser -p --default-character-set=gbk
 mysql>use mysql; 
 mysql>update user set host = '%' where user = 'root'; 
 ```
 
-#### 4.grant privileges
-```cassandraql
+## 4.grant privileges
+```
 mysql>grant all privileges on *.* to 'root'@'%' identified by 'toor' with grant option;
 ```
 
-#### 5.docker run best
+## 5.docker run best
 > 5.1 make dir
-```cassandraql
+```
 cd /home
 mkdir mysql
 cd mysql
@@ -36,7 +35,7 @@ cd conf
 ```
 
 > 5.2 vi mysql.conf
-```cassandraql
+```
 #/home/mysql/conf/mysql.conf
 
 [client]
@@ -54,12 +53,12 @@ skip-character-set-client-handshake
 ```
 
 > 5.3 docker run
-```cassandraql
-docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --restart=always --privileged=true -v /home/mysql/conf/mysql.conf:/etc/mysql/my.cnf -v /home/mysql/data:/var/lib/mysql --name mysql mysql:v1.0.0
+```
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --restart=always --privileged=true -v /home/mysql/conf/mysql.conf:/etc/mysql/my.cnf -v /home/mysql/data:/var/lib/mysql --name mysql mysql:tag
 ```
 
-#### 6.docker command
-```cassandraql
+## 6.docker command
+```
 docker xxx --help
 docker images
 docker ps -a

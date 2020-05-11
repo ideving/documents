@@ -1,4 +1,4 @@
-### springboot logback
+# springboot logback
 
 springboot默认的日志文件是不会自动按天分割的，所以生产环境的日志文件越来越大，很不利于排错。查了很多资料最终配置如下，可以完美按天按错误等级分割日志文件，配置如下。
 
@@ -17,7 +17,7 @@ logging.config=classpath:logback-spring-dev.xml
 至于logback的xml文件内容如下：
 
 logback-spring-dev.xml 开发环境下，不需要输出到文件，只需要打印在控制台就行了。
-```cassandraql
+```
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->
@@ -48,7 +48,7 @@ logback-spring-dev.xml 开发环境下，不需要输出到文件，只需要打
 ```
 
 然后是 logback-spring-test.xml 和logback-spring-prod.xml，test环境与prod的只是文件位置不同所以只贴一份了，改下路径就行了，并且测试和生产是不需要控制台输出的，不然catalina.out文件就要爆炸了！
-```cassandraql
+```
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 从高到地低 OFF 、 FATAL 、 ERROR 、 WARN 、 INFO 、 DEBUG 、 TRACE 、 ALL -->

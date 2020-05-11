@@ -1,17 +1,17 @@
 # 常用IO操作
 
 - export one database
-```cassandraql
+```
 mysqldump -u dbuser -p dbname > dbname.sql
 ```
 
 - export one table
-```cassandraql
+```
 mysqldump -u dbuser -p dbname tbname > dbname_tb.sql
 ```
 
 - export one database or table structure
-```cassandraql
+```
 mysqldump -u dbuser -p -d --add-drop-table dbname > dbname.db
 mysqldump -u dbuser -p -d --add-drop-table dbname tbname > dbname_tb.db
 -d no data
@@ -19,12 +19,12 @@ mysqldump -u dbuser -p -d --add-drop-table dbname tbname > dbname_tb.db
 ```
 
 - export query
-```cassandraql
+```
 mysql -u dbuser -p --default-character-set=gbk -e "select * from tbname" dbname > tbname.db
 ```
 
 - import data
-```cassandraql
+```
 mysql -u dbuser -p --default-character-set=gbk
 mysql>show databases;
 mysql>use dbname;
@@ -32,13 +32,13 @@ mysql>source dbname.sql;
 ```
 
 - import one database or table
-```cassandraql
+```
 mysql -u dbuser -p --default-character-set=gbk dbname < dbname.db
 mysql -u dbuser -p --default-character-set=gbk dbname tbname < dbname_tb.db
 ```
 
 - show database
-```cassandraql
+```
 mysql -u dbuser -p --default-character-set=gbk
 mysql>show databases;
 mysql>create database dbname default character set utf8 collate utf8_general_ci;

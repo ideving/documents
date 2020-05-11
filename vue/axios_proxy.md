@@ -1,17 +1,18 @@
-### vue axios proxy
-1. install axios
-```cassandraql
+# vue axios proxy
+
+1.install axios
+```
 npm install -S axios
 ```
-2. main.js
-```cassandraql
+2.main.js
+```
 import axios from 'axios'
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api'
 ```
 
-3. vue.config.js
-```cassandraql
+3.vue.config.js
+```
 module.exports = {
     configureWebpack: {
         devServer: {
@@ -35,8 +36,8 @@ module.exports = {
 }
 ```
 
-4. test
-```cassandraql
+4.test
+```
 //visit http://localhost:8888/all/test
 this.$http.post("/test",{
     username:"admin",

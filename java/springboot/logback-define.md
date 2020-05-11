@@ -1,4 +1,5 @@
-### LOGBACK 自定义变量
+# LOGBACK 自定义变量
+
 当使用logback来记录Web应用的日志时，我们通过在logback.xml中配置appender来指定日志输出格式及输出文件路径，这在一台主机或一个文件系统上部署单个实例没有问题，但是如果部署多个实例（比如通过容器的方式），多个实例同时往同一文件写日志可能就会引起问题。这时可以将每个实例的日志文件加以区分，如IP或UUID，或两者结合的形式。这其实就涉及如何在logback.xml中自定义动态属性的问题。
 
 可以有4种方式来实现logback.xml中获取自定义变量值：
@@ -9,7 +10,7 @@
 
 第一种方式简单，但不能通过程序生成属性值，第二种方式稍显复杂，本文主要介绍后两种方式。
 
-#### PropertyDefiner方式
+## PropertyDefiner方式
 首先定义一个类，实现PropertyDefiner接口，可以通过继承PropertyDefinerBase会更方便
 ```
 import ch.qos.logback.core.PropertyDefinerBase;
@@ -62,7 +63,7 @@ public class IPLogDefiner extends PropertyDefinerBase {
     # 省略了其它配置
 ```
 
-#### LoggerContextListener方式 
+## LoggerContextListener方式 
 定义一个实现LoggerContextListener接口的类，在start方法中，将需要设置的属性设置到logback的Context中，
 ```
 import ch.qos.logback.classic.Level;
@@ -131,5 +132,5 @@ public class LoggerStartupListener extends ContextAwareBase
 ```
 这种方式能设置任意个数的属性值，比前一种方式灵活。
 
-#### 总结
+## 总结
 在logback.xml中获取自定义属性值，主要是需要在加载前将对应的属性值进行设置，这样加载时才能有效获取。本文虽是自定义日志文件名称，但不局限于此，所有需要动态获取的变量都可以按这种方式实现。
