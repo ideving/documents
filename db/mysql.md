@@ -7,7 +7,7 @@ mysqldump -u dbuser -p dbname > dbname.sql
 
 - export one table
 ```
-mysqldump -u dbuser -p dbname tbname > dbname_tb.sql
+mysqldump -u dbuser -p dbname tbname --skip-lock-tables > dbname_tb.sql
 ```
 
 - export one database or table structure
@@ -15,6 +15,14 @@ mysqldump -u dbuser -p dbname tbname > dbname_tb.sql
 mysqldump -u dbuser -p -d --add-drop-table dbname > dbname.db
 mysqldump -u dbuser -p -d --add-drop-table dbname tbname > dbname_tb.db
 -d no data
+--add-drop-table  add drop table before create table
+```
+
+- export one database or table data
+```
+mysqldump -u dbuser -p -t --add-drop-table dbname > dbname.db
+mysqldump -u dbuser -p -t --add-drop-table dbname tbname > dbname_tb.db
+-t only data
 --add-drop-table  add drop table before create table
 ```
 
