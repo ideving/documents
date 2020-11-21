@@ -210,7 +210,7 @@ deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
 deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
 ```
 
-# Ubuntu 20 (focal)
+# Ubuntu 20.04 (focal)
 ```
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
